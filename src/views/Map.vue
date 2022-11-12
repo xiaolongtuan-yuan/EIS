@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="container" style="width: 600px; height: 500px"></div>
+    <div id="container" style="width: 100wv; height: 600px;"></div>
   </div>
 </template>
  
@@ -25,7 +25,11 @@ export default {
         document.getElementById("container"),
         myOptions
       );
+      var a = document.querySelector('canvas+div:last-child')
+      a.style.display = 'none'
     },
   },
 };
 </script>
+<style>
+</style>
