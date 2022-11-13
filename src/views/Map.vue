@@ -9,7 +9,7 @@ export default {
   data() {
     return {
       addressText: "",
-      map,
+      theMap:"",
     };
   },
   mounted() {
@@ -27,16 +27,13 @@ export default {
         zoom: 14,
         center: new TMap.LatLng(39.986785, 116.301012),
       });
-      this.map = map;
+      this.theMap = map;
     },
     convert(address) {
-      var map = new TMap.Map("container", {
-        zoom: 14,
-        center: new TMap.LatLng(39.986785, 116.301012),
-      });
+      var theMap = this.theMap
       var geocoder = new TMap.service.Geocoder(); // 新建一个正逆地址解析类
       var markers = new TMap.MultiMarker({
-        map: map,
+        map: theMap,
         geometries: [],
       });
       markers.setGeometries([]);
@@ -48,7 +45,7 @@ export default {
             position: result.result.location, // 将得到的坐标位置用点标记标注在地图上
           },
         ]);
-        map.setCenter(result.result.location);
+        theMap.setCenter(result.result.location);
       });
     },
   },
