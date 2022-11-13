@@ -1,14 +1,11 @@
 <template>
   <div class="center">
-    <el-card style="width:50vw;">
-      <el-form
-        :model="Form"
-        status-icon
-        :rules="rules"
-        ref="Form"
-        class="Form"
-      >
-        <el-form-item label="编码">
+    <el-card style="width: 50vw">
+      <el-form :model="Form" status-icon ref="Form" class="Form">
+        <el-form-item
+          label="编码"
+          :rules="[{ validator: checkCode, trigger: 'blur' }]"
+        >
           <el-input type="text" v-model="Form.code"></el-input>
         </el-form-item>
         <el-form-item label="文件">
@@ -23,7 +20,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('Form')">提交</el-button>
+          <el-button type="primary" @click="submitForm">提交</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -31,57 +28,66 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "Input",
   components: {},
   data() {
-    var checkAge = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("年龄不能为空"));
-      }
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error("请输入数字值"));
-        } else {
-          if (value < 18) {
-            callback(new Error("必须年满18岁"));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
-    };
     return {
       Form: {
         code: "",
-      },
-      rules: {
-        code: [{ validator: checkAge, trigger: "blur" }],
+        file: "",
       },
     };
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
+    checkCode(rule, value, callback) {
+      console.log("验证");
+      const regex = new RegExp("[0-9]{36}");
+      var res = regex.test(str);
+      console.log(res);
+      if (!res) {
+        callback(new Error("请输入36位数字"));
+      } else {
+        callback();
+      }
+    },
+    submitForm() {
+      if (this.Form.code != "") {
+        axios
+          .post("http://10.128.236.33:8080/upload/code", {
+            code: this.Form.code,
+          })
+          .then((res) => {
+            if (res.data.code === "00000") {
+              this.$notify.success({
+                title: "code发送成功",
+                result: "解码结果" + res.data,
+              });
+              return;
+            }
+
+            this.$notify.error({
+              title: "失败",
+            });
+          });
+      } else {
+        this.$notify.error({
+          title: "未输入编码",
+        });
+      }
     },
   },
 };
 </script>
 
 <style scoped>
-.center{
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
+.center {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
 }
-.Form{
-    
+.Form {
 }
 </style>
