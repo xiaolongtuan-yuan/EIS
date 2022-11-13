@@ -7,6 +7,11 @@ export default new VueRouter({
         {
             path: '/', component: () => import('@/views/Main'), children: [
                 {
+                    name:'input',
+                    path:'/input',
+                    component:()=>import('@/views/Input')
+                },
+                {
                     name: 'TextData',
                     path: 'textdata',
                     component: () => import('@/views/TextData')

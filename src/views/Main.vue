@@ -1,39 +1,17 @@
 <template>
   <div>
-    <el-container style="border: 1px solid #eee">
+    <el-container>
       <el-header>
         <el-row class="header">
           <el-col :span="14">
-            <el-menu
-              :default-active="activeIndex"
-              class="el-menu-demo"
-              mode="horizontal"
-              @select="handleSelect"
-              router
-            >
-              <el-menu-item index="1" @click="showTextData" route="/textdata"
-                >文本数据</el-menu-item
-              >
-              <el-menu-item index="2" @click="showGIS" route="/map"
-                >GIS</el-menu-item
-              >
+            <el-menu default-active="1" mode="horizontal" class="menu" router>
+              <el-menu-item index="1" route="/input">上传</el-menu-item>
+              <el-menu-item index="2" route="/textdata">文本数据</el-menu-item>
+              <el-menu-item index="3" route="/map">GIS</el-menu-item>
             </el-menu>
           </el-col>
-          <el-col :span="10">
-            <el-form
-              :inline="true"
-              :model="formInline"
-            >
-              <el-form-item label="编码">
-                <el-input
-                  v-model="formInline.user"
-                  placeholder="36位数字"
-                ></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="onSubmit">确定</el-button>
-              </el-form-item>
-            </el-form>
+          <el-col :span="5" :offset="5">
+            <el-input type="text" v-model="testText" placeholder="36位数字" @change="enterUp"></el-input>
           </el-col>
         </el-row>
       </el-header>
@@ -45,28 +23,20 @@
 </template>
 
 <script>
-import Map from "./Map.vue";
-import TextData from "./TextData.vue";
-
+import store from '@/store';
 export default {
   name: "Main",
-  components: {
-    Map,
-    TextData,
-  },
+  components: {},
   data() {
     return {
-      formInline: {
-        user: "",
-        region: "",
-      },
-    };
+      testText: "",
+    }
   },
   methods: {
-    showTextData() {},
-    showGIS() {},
-    onSubmit() {
-      console.log("submit!");
+    enterUp(e) {
+      alert("submit!"+e);
+      this.$store.commit('SET_testText',this.testText);
+      this.$router.push("Map")
     },
   },
 };
@@ -82,10 +52,18 @@ export default {
 }
 </style>
 <style scoped>
-.inputForm{
-    background: #566;
-    display: flex;
-    justify-content: flex-end;
-    align-content: center;
+.inputForm {
+  background: #566;
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+}
+.header{
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+}
+.menu {
+  border: none;
 }
 </style>
