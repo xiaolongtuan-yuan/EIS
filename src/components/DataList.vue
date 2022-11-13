@@ -1,10 +1,15 @@
 <template>
   <div>
-    <el-table :data="tableData" style="" stripe fit>
-      <el-table-column prop="code" label="编码"> </el-table-column>
-      <el-table-column prop="text" label="解码文本">
-      </el-table-column>
+    <el-card style="width: 80vw;" >
+    <el-table :data="tableData" stripe fit>
+      <el-table-column prop="address" label="地址"> </el-table-column>
+      <el-table-column prop="date" label="时间"> </el-table-column>
+      <el-table-column prop="disaster" label="灾情"> </el-table-column>
+      <el-table-column prop="disasterIndi" label="灾情指标"> </el-table-column>
+      <el-table-column prop="origin" label="来源"> </el-table-column>
+      <el-table-column prop="type" label="载体"> </el-table-column>
     </el-table>
+    </el-card>
   </div>
 </template>
 
@@ -15,27 +20,27 @@ export default {
   props: [],
   data() {
     return {
-      tableData: [
-        {
-          code: "123654789987456321741258963963258741",
-          text: "刘月屁股大",
-        },
-        {
-          code: "123654789987456321741258963963258741",
-          text: "刘月屁股大",
-        },
-        {
-          code: "123654789987456321741258963963258741",
-          text: "刘月屁股大",
-        },
-        {
-          code: "123654789987456321741258963963258741",
-          text: "刘月屁股大",
-        },
-      ],
+      tableData: [],
     };
   },
   methods: {},
+  mounted() {
+    var InfoList = this.$store.state.InfoList;
+    if (InfoList.length != 0) {
+      this.tableData = InfoList;
+    }else{
+      this.tableData = [
+        {
+          address: "果洛新村黄河乡玛多县果洛藏族自治州青海省",
+          date: "2021-05-22 02:04:00",
+          disaster: "房屋破坏-砖木",
+          disasterIndi: "一般损坏面积",
+          origin: "后方地震应急指挥部",
+          type: "文字",
+        },
+      ]
+    }
+  },
 };
 </script>
 

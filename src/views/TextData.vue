@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <data-list></data-list>
   </div>
 </template>
@@ -17,5 +17,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.main{
+  display: flex;
+  justify-content: center;
+}
 </style>

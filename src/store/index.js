@@ -8,10 +8,14 @@ const mutations = {
     SET_testText(state,value){
         console.log("store "+value);
         state.testText = value;
+    },
+    SET_InfoList(state,value){
+        state.InfoList = value;
     }
 }
 const state = {
     testText:"",
+    InfoList:[],
 }
 
 export default new Vuex.Store({

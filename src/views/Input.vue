@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   name: "Input",
@@ -60,11 +60,26 @@ export default {
             code: this.Form.code,
           })
           .then((res) => {
-            if (res.data.code === "00000") {
+            console.log("res:" + res.data);
+            if (res.data === "upload success") {
               this.$notify.success({
                 title: "code发送成功",
                 result: "解码结果" + res.data,
               });
+              axios
+                // 3.1url地址
+                .get("http://10.128.236.33:8080/data/all")
+                // 3.2成功时回调函数
+                .then((data) => {
+                  console.log(data.data);
+                  this.$router.push("TextData");
+                  return;
+                })
+                //3.3失败时回调函数
+                .catch((err) => {
+                  console.log(err);
+                  return;
+                });
               return;
             }
 
