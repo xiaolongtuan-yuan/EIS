@@ -38,7 +38,7 @@ export default {
       });
       markers.setGeometries([]);
       // 将给定的地址转换为坐标位置
-      geocoder.getLocation({ address }).then((result) => {
+      geocoder.getLocation({ address: address,servicesk:"tEoRZWKza3GbVsLBAvfWITV07meRO2IQ"}).then((result) => {
         markers.updateGeometries([
           {
             id: "main",

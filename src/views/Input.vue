@@ -23,6 +23,7 @@
           <el-button type="primary" @click="submitForm">提交</el-button>
         </el-form-item>
       </el-form>
+      <el-button type="primary" @click="testGet">GET</el-button>
     </el-card>
   </div>
 </template>
@@ -58,6 +59,10 @@ export default {
         axios
           .post("http://10.128.236.33:8080/upload/code", {
             code: this.Form.code,
+          },{
+            headers:{
+              'Content-Type': 'application/json'
+            }
           })
           .then((res) => {
             console.log("res:" + res.data);
@@ -66,23 +71,23 @@ export default {
                 title: "code发送成功",
                 result: "解码结果" + res.data,
               });
-              axios
-                // 3.1url地址
-                .get("http://10.128.236.33:8080/data/all")
-                // 3.2成功时回调函数
-                .then((data) => {
-                  console.log(data.data);
-                  this.$router.push("TextData");
-                  return;
-                })
-                //3.3失败时回调函数
-                .catch((err) => {
-                  console.log(err);
-                  return;
-                });
+              // axios
+              //   // 3.1url地址
+              //   .get("http://10.128.236.33:8080/data/all")
+              //   // 3.2成功时回调函数
+              //   .then((data) => {
+              //     console.log(data.data);
+              //     this.$store.commit("SET_InfoList",data.data);
+              //     this.$router.push("TextData");
+              //     return;
+              //   })
+              //   //3.3失败时回调函数
+              //   .catch((err) => {
+              //     console.log(err);
+              //     return;
+              //   });
               return;
             }
-
             this.$notify.error({
               title: "失败",
             });
@@ -92,6 +97,23 @@ export default {
           title: "未输入编码",
         });
       }
+    },
+    testGet() {
+      axios
+        // 3.1url地址
+        .get("http://10.128.236.33:8080/data/all")
+        // 3.2成功时回调函数
+        .then((data) => {
+          console.log(data.data);
+          this.$store.commit("SET_InfoList",data.data);
+          this.$router.push("TextData");
+          return;
+        })
+        //3.3失败时回调函数
+        .catch((err) => {
+          console.log(err);
+          return;
+        });
     },
   },
 };
