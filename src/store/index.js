@@ -14,7 +14,7 @@ const mutations = {
     }
 }
 const state = {
-    testText:"",
+    testText:null,
     InfoList:[],
 }
 

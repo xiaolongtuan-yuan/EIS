@@ -8,38 +8,49 @@
 export default {
   data() {
     return {
-      addressText: "",
-      theMap: "",
+      addressText: null,
+      geometries: [
+        {
+          styleId: "marker",
+          position: new TMap.LatLng(39.984104, 116.307503),
+          properties: {
+            content: "果洛新村黄河乡玛多县果洛藏族自治州青海省",
+          },
+        },
+        {
+          styleId: "marker",
+          position: new TMap.LatLng(39.984104, 116),
+          properties: {
+            content: "asdasdasf",
+          },
+        },
+      ],
+      map: null,
+      infoWindow: null,
+      marker: null,
     };
   },
   mounted() {
-    this.init();
+    this.initMap();
     this.addressText = this.$store.state.testText;
     console.log(this.addressText);
-    if (typeof this.addressText != "undefined") {
-      console.log("convert!");
+    if (this.addressText != null) {
+      console.log(typeof this.addressText + "  " + this.addressText);
       this.convert(this.addressText);
     }
   },
   methods: {
-    init() {
-      var map = new TMap.Map("container", {
-        zoom: 14,
-        center: new TMap.LatLng(39.986785, 116.301012),
-      });
-      this.theMap = map;
-    },
     initMap() {
       var center = new TMap.LatLng(39.984104, 116.307503); //设置中心点坐标
       //初始化地图
-      var map = new TMap.Map("container", {
+      this.map = new TMap.Map("container", {
         center: center,
       });
 
       //初始marker
-      var marker = new TMap.MultiMarker({
+      this.marker = new TMap.MultiMarker({
         id: "marker-layer",
-        map: map,
+        map: this.map,
         styles: {
           marker: new TMap.MarkerStyle({
             width: 24,
@@ -48,48 +59,29 @@ export default {
             src: "https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/markerDefault.png",
           }),
         },
-        geometries: [
-          {
-            id: "demo1",
-            styleId: "marker",
-            position: new TMap.LatLng(39.984104, 116.307503),
-            properties: {
-              title: "marker",
-            },
-          },
-          {
-            id: "demo2",
-            styleId: "marker",
-            position: new TMap.LatLng(39.974104, 116.347503),
-            properties: {
-              title: "marker",
-            },
-          },
-        ],
+        geometries: this.geometries,
       });
-      //初始化infoWindow
+
       var infoWindow = new TMap.InfoWindow({
-        map: map,
+        map: this.map,
         position: new TMap.LatLng(39.984104, 116.307503),
         offset: { x: 0, y: -32 }, //设置信息窗相对position偏移像素
       });
+
       infoWindow.close(); //初始关闭信息窗关闭
       //监听标注点击事件
-      marker.on("click", function (evt) {
+      this.marker.on("click", function (evt) {
         //设置infoWindow
         infoWindow.open(); //打开信息窗
         infoWindow.setPosition(evt.geometry.position); //设置信息窗位置
-        infoWindow.setContent(evt.geometry.position.toString()); //设置信息窗内容
+        infoWindow.setContent(evt.geometry.properties.content); //设置信息窗内容
       });
     },
+
+    //地址解析
     convert(address) {
-      var theMap = this.theMap;
+      var theMap = this.map;
       var geocoder = new TMap.service.Geocoder(); // 新建一个正逆地址解析类
-      var markers = new TMap.MultiMarker({
-        map: theMap,
-        geometries: [],
-      });
-      markers.setGeometries([]);
       // 将给定的地址转换为坐标位置
       geocoder
         .getLocation({
@@ -97,12 +89,12 @@ export default {
           servicesk: "vPGsh5j1tzygzWILvhNtWTMpsUi9VEha",
         })
         .then((result) => {
-          markers.updateGeometries([
-            {
-              id: "main",
-              position: result.result.location, // 将得到的坐标位置用点标记标注在地图上
+          this.marker.geometries.push({
+            position: result.result.location,
+            properties: {
+              content: address,
             },
-          ]);
+          });
           theMap.setCenter(result.result.location);
         });
     },
