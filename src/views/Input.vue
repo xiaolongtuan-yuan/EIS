@@ -8,19 +8,9 @@
         >
           <el-input type="text" v-model="Form.code"></el-input>
         </el-form-item>
-        <el-form-item label="文件">
-          <el-upload class="upload-demo" drag action="">
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">
-              将文件拖到此处，或<em>点击上传</em>
-            </div>
-            <div class="el-upload__tip" slot="tip">
-              只能上传csv文件，且不超过500kb
-            </div>
-          </el-upload>
-        </el-form-item>
+
         <el-form-item>
-          <el-button type="primary" @click="submitForm">提交</el-button>
+          <el-button type="primary" @click="submitForm">提交编码</el-button>
         </el-form-item>
       </el-form>
       <el-button type="primary" @click="testGet">GET</el-button>
@@ -32,6 +22,8 @@
 import axios from "axios";
 
 export default {
+
+
   name: "Input",
   components: {},
   data() {
@@ -98,6 +90,7 @@ export default {
         });
       }
     },
+
     testGet() {
       axios
         // 3.1url地址
