@@ -21,6 +21,11 @@ export default new VueRouter({
                     path: 'map',
                     component: () => import('@/views/Map')
                 },
+                              {
+                    name: 'fle',
+                    path: 'file',
+                    component: () => import('@/views/file')
+                },
             ]
         }
     ]
