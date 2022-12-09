@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="container" style="width: 100wv; height: 600px"></div>
+    <div id="container" class="map"></div>
   </div>
 </template>
  
@@ -111,5 +111,9 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
+.map{
+  margin: 0;
+  width: 100%;
+}
 </style>
