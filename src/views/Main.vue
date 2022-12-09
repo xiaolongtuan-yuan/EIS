@@ -5,7 +5,8 @@
         <el-row class="header">
           <el-col :span="14">
             <el-menu default-active="1" mode="horizontal" class="menu" router>
-              <el-menu-item index="1" route="/input">上传</el-menu-item>
+              <el-menu-item index="1" route="/input">上传编码</el-menu-item>
+                 <el-menu-item index="4" route="/file">上传文件</el-menu-item>
               <el-menu-item index="2" route="/textdata">文本数据</el-menu-item>
               <el-menu-item index="3" route="/map">GIS</el-menu-item>
             </el-menu>
