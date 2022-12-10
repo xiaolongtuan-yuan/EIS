@@ -19,12 +19,12 @@ export default {
   },
   mounted() {
     this.initMap();
-    if (this.$route.params.type === "quary") {
+    if (this.$route.params.type == "quary") {
       this.addressText = this.$store.state.testText;
       this.type = "quary";
       if (this.addressText != null) {
         console.log(typeof this.addressText + "  " + this.addressText);
-        this.convert(this.addressText);
+        this.convert2(this.addressText);
       }
     } else {
       this.tableData = this.$store.state.InfoList;
@@ -97,7 +97,27 @@ export default {
           this.geometries.push({
             position: result.result.location,
             properties: {
-              content:`<div>${i.address}</div><div>${i.date}</div><div>${i.disaster}</div><div>${i.disasterIndi}</div>`
+              content:i.type=="文字"?`<div>${i.address}</div><div>${i.date}</div><div>${i.disaster}</div><div>${i.disasterIndi}</div>`:`<div>${i.address}</div><div>${i.date}</div><div>${i.disaster}</div><div>${i.disasterIndi}</div><img src='http://localhost:8080/${i.media}'>`
+            },
+          });
+          this.removeMarker();
+          this.createMarker();
+        });
+    },
+    convert2(address) {
+      var theMap = this.map;
+      var geocoder = new TMap.service.Geocoder(); // 新建一个正逆地址解析类
+      // 将给定的地址转换为坐标位置
+      geocoder
+        .getLocation({
+          address: address,
+          servicesk: "vPGsh5j1tzygzWILvhNtWTMpsUi9VEha",
+        })
+        .then((result) => {
+          this.geometries.push({
+            position: result.result.location,
+            properties: {
+              content:`<div>${address}</div>`
             },
           });
           this.removeMarker();
