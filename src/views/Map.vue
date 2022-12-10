@@ -9,33 +9,29 @@ export default {
   data() {
     return {
       addressText: null,
-      geometries: [
-        {
-          position: new TMap.LatLng(39.984104, 116.307503),
-          properties: {
-            content: "果洛新村黄河乡玛多县果洛藏族自治州青海省",
-          },
-        },
-        {
-          position: new TMap.LatLng(39.984104, 116),
-          properties: {
-            content: "asdasdasf",
-          },
-        },
-      ],
+      tableData: [],
+      geometries: [],
       map: null,
       infoWindow: null,
       marker: null,
+      type:"display",
     };
   },
   mounted() {
     this.initMap();
-    this.addressText = this.$store.state.testText;
-    console.log(this.addressText);
-    if (this.addressText != null) {
-      console.log(typeof this.addressText + "  " + this.addressText);
-      this.convert(this.addressText);
+    if (this.$route.params.type === "quary") {
+      this.addressText = this.$store.state.testText;
+      this.type = "quary";
+      if (this.addressText != null) {
+        console.log(typeof this.addressText + "  " + this.addressText);
+        this.convert(this.addressText);
+      }
+    } else {
+      this.tableData = this.$store.state.InfoList;
+      this.type = "display";
+      this.display();
     }
+    console.log(this.type);
   },
   methods: {
     initMap() {
@@ -43,6 +39,7 @@ export default {
       //初始化地图
       this.map = new TMap.Map("container", {
         center: center,
+        zoom:6
       });
       this.createMarker();
     },
@@ -80,39 +77,46 @@ export default {
       }
     },
     removeMarker() {
-      if (this.marker!=null) {
+      if (this.marker != null) {
         this.marker.setMap(null);
         this.marker = null;
       }
     },
 
     //地址解析
-    convert(address) {
+    convert(i) {
       var theMap = this.map;
       var geocoder = new TMap.service.Geocoder(); // 新建一个正逆地址解析类
       // 将给定的地址转换为坐标位置
       geocoder
         .getLocation({
-          address: address,
+          address: i.address,
           servicesk: "vPGsh5j1tzygzWILvhNtWTMpsUi9VEha",
         })
         .then((result) => {
           this.geometries.push({
             position: result.result.location,
             properties: {
-              content: address,
+              content:`<div>${i.address}</div><div>${i.date}</div><div>${i.disaster}</div><div>${i.disasterIndi}</div>`
             },
           });
           this.removeMarker();
           this.createMarker();
-          theMap.setCenter(result.result.location);
         });
+    },
+    display() {
+      if (this.tableData.length != 0) {
+        for (let i in this.tableData) {
+          console.log(this.tableData[i])
+          this.convert(this.tableData[i]);
+        }
+      }
     },
   },
 };
 </script>
 <style scoped>
-.map{
+.map {
   margin: 0;
   width: 100%;
 }

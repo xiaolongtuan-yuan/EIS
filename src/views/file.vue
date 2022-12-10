@@ -37,7 +37,7 @@ export default {
       const data = new FormData();
       data.append('file', param.file);
       axios.
-      post("http://10.128.236.33:8080/upload/file/excel", data, {
+      post("http://localhost:8080/upload/file/excel", data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

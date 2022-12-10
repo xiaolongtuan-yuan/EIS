@@ -49,7 +49,7 @@ export default {
     submitForm() {
       if (this.Form.code != "") {
         axios
-          .post("http://10.128.236.33:8080/upload/code", {
+          .post("http://localhost:8080/upload/code", {
             code: this.Form.code,
           },{
             headers:{
@@ -65,7 +65,7 @@ export default {
               });
               // axios
               //   // 3.1url地址
-              //   .get("http://10.128.236.33:8080/data/all")
+              //   .get("http://localhost:8080/data/all")
               //   // 3.2成功时回调函数
               //   .then((data) => {
               //     console.log(data.data);
@@ -94,7 +94,7 @@ export default {
     testGet() {
       axios
         // 3.1url地址
-        .get("http://10.128.236.33:8080/data/all")
+        .get("http://localhost:8080/data/all")
         // 3.2成功时回调函数
         .then((data) => {
           console.log(data.data);

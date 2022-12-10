@@ -18,7 +18,7 @@ export default new VueRouter({
                 },
                 {
                     name: 'Map',
-                    path: 'map',
+                    path: 'map/:type',
                     component: () => import('@/views/Map')
                 },
                               {

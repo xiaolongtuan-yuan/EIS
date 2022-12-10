@@ -6,13 +6,18 @@
           <el-col :span="14">
             <el-menu default-active="1" mode="horizontal" class="menu" router>
               <el-menu-item index="1" route="/input">上传编码</el-menu-item>
-                 <el-menu-item index="4" route="/file">上传文件</el-menu-item>
+              <el-menu-item index="4" route="/file">上传文件</el-menu-item>
               <el-menu-item index="2" route="/textdata">文本数据</el-menu-item>
-              <el-menu-item index="3" route="/map">GIS</el-menu-item>
+              <el-menu-item index="3" route="/map/display">GIS</el-menu-item>
             </el-menu>
           </el-col>
           <el-col :span="5" :offset="5">
-            <el-input type="text" v-model="testText" placeholder="36位数字" @change="enterUp"></el-input>
+            <el-input
+              type="text"
+              v-model="testText"
+              placeholder="36位数字"
+              @change="enterUp"
+            ></el-input>
           </el-col>
         </el-row>
       </el-header>
@@ -24,20 +29,27 @@
 </template>
 
 <script>
-import store from '@/store';
+import store from "@/store";
 export default {
   name: "Main",
   components: {},
   data() {
     return {
       testText: "",
-    }
+      activeIndex: "1",
+    };
   },
   methods: {
     enterUp(e) {
-      alert("submit!"+e);
-      this.$store.commit('SET_testText',this.testText);
-      this.$router.push("Map")
+      alert("submit!" + e);
+      this.$store.commit("SET_testText", this.testText);
+      this.$router.push({
+        name: "Map",
+        params: {
+          type: "quary",
+        },
+      });
+      this.activeIndex = "3";
     },
   },
 };
@@ -59,7 +71,7 @@ export default {
   justify-content: flex-end;
   align-content: center;
 }
-.header{
+.header {
   border-bottom: 1px solid #eee;
   display: flex;
   align-items: center;
